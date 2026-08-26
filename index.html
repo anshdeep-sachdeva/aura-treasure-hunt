@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURA presents AI Treasure Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-dark:#3c4a30;
+    --green-mid:#59683f;
+    --cream:#f2e3d3;
+    --cream-soft:#e9d6bf;
+    --black:#111008;
+    --rust:#7a3a2a;
+    --text-dim:#c9b79f;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Poppins', sans-serif;
+    color:var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 18px;
+    background-color:var(--green-dark);
+    background-image:
+      linear-gradient(45deg, var(--green-mid) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--green-mid) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--green-mid) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--green-mid) 75%);
+    background-size:64px 64px;
+    background-position:0 0, 0 32px, 32px -32px, -32px 0px;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:600px;
+  }
+
+  /* ---------- starburst badge ---------- */
+  .badge-wrap{
+    position:relative;
+    width:280px;
+    margin:0 auto -46px;
+    z-index:3;
+  }
+  .badge-wrap svg{ width:100%; display:block; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
+  .badge-text{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Alfa Slab One', serif;
+    color:var(--black);
+    font-size:26px;
+    line-height:1.15;
+    letter-spacing:1px;
+    transform:translateY(2px);
+  }
+
+  /* ---------- main card ---------- */
+  .card{
+    position:relative;
+    z-index:1;
+    background:var(--black);
+    border:3px solid var(--cream-soft);
+    border-radius:30px;
+    padding:76px 30px 34px;
+    box-shadow:0 18px 0 -6px rgba(0,0,0,0.35), 0 24px 50px rgba(0,0,0,0.55);
+  }
+
+  .sparkle{
+    position:absolute;
+    color:var(--cream);
+    font-size:22px;
+    z-index:2;
+    opacity:0.9;
+  }
+  .sparkle.tl{ top:70px; left:22px; }
+  .sparkle.br{ bottom:120px; right:22px; font-size:26px; }
+
+  .kicker{
+    text-align:center;
+    font-size:14px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 6px;
+  }
+
+  h1{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    text-align:center;
+    text-transform:uppercase;
+    font-size:clamp(30px, 7vw, 46px);
+    line-height:1.05;
+    margin:0 0 6px;
+    color:var(--cream);
+    letter-spacing:1px;
+  }
+
+  .sub{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+    letter-spacing:1px;
+    margin:0 0 30px;
+  }
+
+  label{
+    display:block;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:8px;
+    font-weight:600;
+  }
+
+  .field{ margin-bottom:22px; }
+  .hidden{ display:none !important; }
+
+  input[type="text"]{
+    width:100%;
+    background:var(--cream);
+    border:2px solid var(--black);
+    color:var(--black);
+    font-family:'Poppins', sans-serif;
+    font-weight:500;
+    font-size:15px;
+    padding:12px 14px;
+    border-radius:10px;
+    outline:none;
+    box-shadow:3px 3px 0 var(--cream-soft);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  input[type="text"]:focus{
+    transform:translate(-1px,-1px);
+    box-shadow:4px 4px 0 var(--rust);
+  }
+  input[type="text"]::placeholder{ color:#8a7a63; }
+
+  .question-box{
+    background:var(--cream);
+    border:2px solid var(--black);
+    border-radius:12px;
+    padding:16px 18px;
+    margin-bottom:10px;
+    color:var(--black);
+    box-shadow:3px 3px 0 var(--cream-soft);
+  }
+  .question-box .q-label{
+    display:block;
+    font-family:'Alfa Slab One', serif;
+    font-size:12px;
+    letter-spacing:1.5px;
+    color:var(--rust);
+    margin-bottom:8px;
+    text-transform:uppercase;
+  }
+  .question-box .q-text{
+    font-size:14.5px;
+    line-height:1.55;
+  }
+
+  button{
+    width:100%;
+    padding:15px;
+    border:2px solid var(--black);
+    border-radius:10px;
+    background:var(--rust);
+    color:var(--cream);
+    font-family:'Alfa Slab One', serif;
+    font-size:15px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--cream-soft);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  button:hover{
+    transform:translate(-2px,-2px);
+    box-shadow:6px 6px 0 var(--cream-soft);
+  }
+  button:active{
+    transform:translate(0,0);
+    box-shadow:2px 2px 0 var(--cream-soft);
+  }
+
+  #result{
+    margin-top:20px;
+    padding:14px 16px;
+    border-radius:10px;
+    font-family:'Poppins', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    text-align:center;
+    letter-spacing:0.3px;
+    display:none;
+    border:2px solid var(--black);
+  }
+  #result.correct{
+    display:block;
+    background:#c9e2b3;
+    color:var(--black);
+  }
+  #result.wrong{
+    display:block;
+    background:#e8b3a9;
+    color:var(--black);
+  }
+  #result.warning{
+    display:block;
+    background:var(--cream);
+    color:var(--black);
+  }
+
+  .team-error{
+    display:none;
+    margin-top:7px;
+    font-size:12px;
+    font-weight:600;
+    color:#f0b95a;
+  }
+  .field.has-error input[type="text"]{
+    box-shadow:4px 4px 0 #f0b95a;
+  }
+  .field.has-error .team-error{ display:block; }
+
+  .clue-reveal{
+    display:none;
+    margin-top:16px;
+    background:var(--cream);
+    border-color:var(--rust);
+    animation:reveal .3s ease;
+  }
+  .clue-reveal .q-label{ color:var(--rust); }
+  .clue-reveal.show{ display:block; }
+  @keyframes reveal{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .footnote{
+    margin-top:28px;
+    text-align:center;
+    font-size:10.5px;
+    letter-spacing:2px;
+    color:#5c5142;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:420px){
+    .badge-wrap{ width:220px; margin-bottom:-36px; }
+    .badge-text{ font-size:20px; }
+    .card{ padding-top:64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="badge-wrap">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,2 112,28 138,14 138,42 166,34 158,62 186,62 170,86 196,96 170,106 186,130 158,130 166,158 138,150 138,178 112,164 100,190 88,164 62,178 62,150 34,158 42,130 14,130 30,106 4,96 30,86 14,62 42,62 34,34 62,42 62,14 88,28"
+        fill="#f2e3d3" stroke="#7a3a2a" stroke-width="4" stroke-linejoin="round"/>
+    </svg>
+    <div class="badge-text">AURA<br>PRESENTS</div>
+  </div>
+
+  <div class="card">
+    <span class="sparkle tl">✦</span>
+    <span class="sparkle br">✦</span>
+
+    <h1>AI Treasure<br>Hunt</h1>
+    <p class="sub">Decode the clue below to unlock the next coordinate.</p>
+
+    <div class="field" id="teamField">
+      <label for="teamNumber">Team Number</label>
+      <input type="text" id="teamNumber" placeholder="e.g. 07" onkeydown="if(event.key==='Enter') startTeam()">
+      <div class="team-error">Enter team number</div>
+    </div>
+
+    <button id="teamButton" onclick="startTeam()">Start / Continue</button>
+
+    <div id="questionSection" class="field hidden">
+      <div class="question-box">
+        <span class="q-label" id="clueLabel">Clue</span>
+        <span class="q-text" id="questionText"></span>
+      </div>
+    </div>
+
+    <div id="answerSection" class="field hidden">
+      <label for="answer">Your Answer</label>
+      <input type="text" id="answer" placeholder="Type your answer here" onkeydown="if(event.key==='Enter') submitAnswer()">
+    </div>
+
+    <button id="answerButton" class="hidden" onclick="submitAnswer()">Submit Answer</button>
+
+    <div id="result"></div>
+
+    <div id="nextClue" class="question-box clue-reveal">
+      <span class="q-label" id="hintLabel">Next Location</span>
+      <span class="q-text" id="hintText"></span>
+    </div>
+
+    <p class="footnote">Powered by AURA</p>
+  </div>
+</div>
+
+<script>
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbwCAKGUM0hv7dlG0NHAnbG4ROLuIlmRpfHPp1n6Xw2Jzidudd6UfzgL1Gx2fuMS-id-/exec";
+
+  const TEAM_STORAGE_KEY = "auraTreasureHuntTeamId";
+
+  let activeTeamId = null;
+  let activeClueId = null;
+
+
+  function showResult(message, type){
+    const resultBox = document.getElementById("result");
+    resultBox.className = type;
+    resultBox.textContent = message;
+  }
+
+
+  function clearResult(){
+    const resultBox = document.getElementById("result");
+    resultBox.className = "";
+    resultBox.textContent = "";
+  }
+
+
+  function showHint(text, label){
+    const nextClue = document.getElementById("nextClue");
+    document.getElementById("hintLabel").textContent = label || "Next Location";
+    document.getElementById("hintText").textContent = text || "";
+    nextClue.classList.toggle("show", Boolean(text));
+  }
+
+
+  function hideQuestion(){
+    activeClueId = null;
+    document.getElementById("questionSection").classList.add("hidden");
+    document.getElementById("answerSection").classList.add("hidden");
+    document.getElementById("answerButton").classList.add("hidden");
+    document.getElementById("answer").value = "";
+  }
+
+
+  function showQuestion(clue){
+    activeClueId = String(clue.clueId);
+
+    document.getElementById("clueLabel").textContent =
+      "Clue #" + activeClueId;
+
+    document.getElementById("questionText").textContent =
+      clue.question || "";
+
+    document.getElementById("questionSection").classList.remove("hidden");
+    document.getElementById("answerSection").classList.remove("hidden");
+    document.getElementById("answerButton").classList.remove("hidden");
+
+    showHint("", "Next Location");
+    document.getElementById("answer").focus();
+  }
+
+
+  async function getTeam(teamId){
+    const response = await fetch(
+      API_URL +
+      "?route=team&teamId=" +
+      encodeURIComponent(teamId)
+    );
+
+    return await response.json();
+  }
+
+
+  async function validateQr(teamId, qrToken){
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        route: "qr/validate",
+        teamId: teamId,
+        qrToken: qrToken
+      })
+    });
+
+    return await response.json();
+  }
+
+
+  async function sendAnswer(teamId, clueId, submittedAnswer){
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        route: "answer",
+        teamId: teamId,
+        clueId: clueId,
+        submittedAnswer: submittedAnswer
+      })
+    });
+
+    return await response.json();
+  }
+
+
+  function applyTeamState(data){
+    const team = data.team;
+    const input = document.getElementById("teamNumber");
+    const teamButton = document.getElementById("teamButton");
+
+    activeTeamId = String(team.teamId);
+    input.value = activeTeamId;
+
+    localStorage.setItem(TEAM_STORAGE_KEY, activeTeamId);
+
+    if(Number(team.currentStep) > 1){
+      input.disabled = true;
+      teamButton.disabled = true;
+      teamButton.textContent = "Team Locked";
+    } else {
+      input.disabled = false;
+      teamButton.disabled = false;
+      teamButton.textContent = "Change Team";
+    }
+
+    if(team.finishedAt){
+      hideQuestion();
+      showHint("", "Next Location");
+      showResult("Treasure hunt completed!", "correct");
+      return;
+    }
+
+    showHint(data.currentHint || "", "Current Location Hint");
+  }
+
+
+  async function startTeam(){
+    const input = document.getElementById("teamNumber");
+    const teamField = document.getElementById("teamField");
+    const teamId = input.value.trim();
+
+    if(!teamId){
+      teamField.classList.add("has-error");
+      showResult("Enter team number", "warning");
+      return;
+    }
+
+    teamField.classList.remove("has-error");
+    clearResult();
+
+    try {
+      const data = await getTeam(teamId);
+
+      if(!data.success){
+        localStorage.removeItem(TEAM_STORAGE_KEY);
+        activeTeamId = null;
+        showResult(
+          data.error?.message || "Team not found.",
+          "wrong"
+        );
+        return;
+      }
+
+      applyTeamState(data);
+
+      const qrToken =
+        new URLSearchParams(window.location.search).get("qr");
+
+      if(qrToken){
+        await processQr(qrToken);
+      }
+
+    } catch(error){
+      showResult("Could not connect to the game server.", "wrong");
+    }
+  }
+
+
+  async function processQr(qrToken){
+    if(!activeTeamId){
+      showResult("Enter your team number first.", "warning");
+      return;
+    }
+
+    clearResult();
+    hideQuestion();
+
+    try {
+      const data = await validateQr(activeTeamId, qrToken);
+
+      if(!data.success){
+        showResult(
+          data.error?.message || "This QR code is not valid.",
+          "wrong"
+        );
+        return;
+      }
+
+      showQuestion(data.clue);
+
+    } catch(error){
+      showResult("Could not validate this QR code.", "wrong");
+    }
+  }
+
+
+  async function submitAnswer(){
+    const answer = document.getElementById("answer").value.trim();
+
+    if(!activeTeamId){
+      showResult("Enter your team number first.", "warning");
+      return;
+    }
+
+    if(!activeClueId){
+      showResult("Scan the correct location QR first.", "warning");
+      return;
+    }
+
+    if(!answer){
+      showResult("Enter an answer before submitting.", "wrong");
+      return;
+    }
+
+    clearResult();
+
+    try {
+      const data = await sendAnswer(
+        activeTeamId,
+        activeClueId,
+        answer
+      );
+
+      if(!data.success){
+        showResult(
+          data.error?.message || "Could not submit answer.",
+          "wrong"
+        );
+        return;
+      }
+
+      if(!data.correct){
+        showResult("Oops, wrong! Try again.", "wrong");
+        return;
+      }
+
+      hideQuestion();
+
+      if(data.finished){
+        showHint("", "Next Location");
+        showResult("Congrats! You finished the treasure hunt!", "correct");
+      } else {
+        showResult("Congrats, correct!", "correct");
+        showHint(data.nextHint || "", "Next Location");
+
+        // The old location QR should no longer remain in the address bar
+        // after the team advances to the next step.
+        const cleanUrl =
+          window.location.origin + window.location.pathname;
+
+        window.history.replaceState({}, "", cleanUrl);
+      }
+
+      // Refresh team state from the backend so step/lock status stays correct.
+      const teamData = await getTeam(activeTeamId);
+
+      if(teamData.success){
+        const input = document.getElementById("teamNumber");
+        const teamButton = document.getElementById("teamButton");
+
+        if(Number(teamData.team.currentStep) > 1){
+          input.disabled = true;
+          teamButton.disabled = true;
+          teamButton.textContent = "Team Locked";
+        }
+      }
+
+    } catch(error){
+      showResult("Could not submit your answer.", "wrong");
+    }
+  }
+
+
+  async function initialise(){
+    const storedTeamId =
+      localStorage.getItem(TEAM_STORAGE_KEY);
+
+    const qrToken =
+      new URLSearchParams(window.location.search).get("qr");
+
+    if(!storedTeamId){
+      if(qrToken){
+        showResult(
+          "Enter your team number to continue.",
+          "warning"
+        );
+      }
+      return;
+    }
+
+    document.getElementById("teamNumber").value = storedTeamId;
+
+    try {
+      const data = await getTeam(storedTeamId);
+
+      if(!data.success){
+        localStorage.removeItem(TEAM_STORAGE_KEY);
+        return;
+      }
+
+      applyTeamState(data);
+
+      if(qrToken && !data.team.finishedAt){
+        await processQr(qrToken);
+      }
+
+    } catch(error){
+      showResult("Could not connect to the game server.", "wrong");
+    }
+  }
+
+
+  initialise();
+</script>
+
+</body>
+</html>
