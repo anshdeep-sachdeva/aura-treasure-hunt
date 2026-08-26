@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AURA presents AI Treasure Hunt</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --green-dark:#3c4a30;
@@ -23,12 +20,12 @@
   body{
     margin:0;
     min-height:100vh;
-    font-family:'Poppins', sans-serif;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     color:var(--cream);
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:40px 18px;
+    padding:28px 16px;
     background-color:var(--green-dark);
     background-image:
       linear-gradient(45deg, var(--green-mid) 25%, transparent 25%),
@@ -42,7 +39,7 @@
   .stage{
     position:relative;
     width:100%;
-    max-width:600px;
+    max-width:560px;
   }
 
   /* ---------- starburst badge ---------- */
@@ -60,7 +57,7 @@
     align-items:center;
     justify-content:center;
     text-align:center;
-    font-family:'Alfa Slab One', serif;
+    font-family:'Arial Black','Arial Narrow',system-ui,sans-serif;
     color:var(--black);
     font-size:26px;
     line-height:1.15;
@@ -75,7 +72,7 @@
     background:var(--black);
     border:3px solid var(--cream-soft);
     border-radius:30px;
-    padding:76px 30px 34px;
+    padding:72px 26px 32px;
     box-shadow:0 18px 0 -6px rgba(0,0,0,0.35), 0 24px 50px rgba(0,0,0,0.55);
   }
 
@@ -99,7 +96,7 @@
   }
 
   h1{
-    font-family:'Playfair Display', serif;
+    font-family:Georgia,'Times New Roman',serif;
     font-weight:900;
     text-align:center;
     text-transform:uppercase;
@@ -115,7 +112,7 @@
     color:var(--text-dim);
     font-size:13px;
     letter-spacing:1px;
-    margin:0 0 30px;
+    margin:0 0 34px;
   }
 
   label{
@@ -128,7 +125,7 @@
     font-weight:600;
   }
 
-  .field{ margin-bottom:22px; }
+  .field{ margin-bottom:26px; }
   .hidden{ display:none !important; }
 
   input[type="text"]{
@@ -136,7 +133,7 @@
     background:var(--cream);
     border:2px solid var(--black);
     color:var(--black);
-    font-family:'Poppins', sans-serif;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     font-weight:500;
     font-size:15px;
     padding:12px 14px;
@@ -156,13 +153,13 @@
     border:2px solid var(--black);
     border-radius:12px;
     padding:16px 18px;
-    margin-bottom:10px;
+    margin-bottom:0;
     color:var(--black);
     box-shadow:3px 3px 0 var(--cream-soft);
   }
   .question-box .q-label{
     display:block;
-    font-family:'Alfa Slab One', serif;
+    font-family:'Arial Black','Arial Narrow',system-ui,sans-serif;
     font-size:12px;
     letter-spacing:1.5px;
     color:var(--rust);
@@ -181,7 +178,7 @@
     border-radius:10px;
     background:var(--rust);
     color:var(--cream);
-    font-family:'Alfa Slab One', serif;
+    font-family:'Arial Black','Arial Narrow',system-ui,sans-serif;
     font-size:15px;
     letter-spacing:1.5px;
     text-transform:uppercase;
@@ -202,7 +199,7 @@
     margin-top:20px;
     padding:14px 16px;
     border-radius:10px;
-    font-family:'Poppins', sans-serif;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     font-weight:700;
     font-size:14px;
     text-align:center;
@@ -253,7 +250,7 @@
   }
 
   .footnote{
-    margin-top:28px;
+    margin-top:32px;
     text-align:center;
     font-size:10.5px;
     letter-spacing:2px;
@@ -261,10 +258,53 @@
     text-transform:uppercase;
   }
 
+  .game-section{
+    margin-top:26px;
+  }
+
+  .team-status{
+    display:none;
+    margin:0 0 28px;
+    padding:10px 14px;
+    border:1px solid rgba(242,227,211,.35);
+    border-radius:999px;
+    color:var(--cream-soft);
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+  }
+
+  .team-status.show{ display:block; }
+
+  #teamButton,
+  #answerButton{
+    margin-top:4px;
+  }
+
+  button:disabled{
+    opacity:.65;
+    cursor:wait;
+    transform:none;
+  }
+
+  #result{
+    margin-top:26px;
+  }
+
+  #nextClue{
+    margin-top:26px;
+  }
+
   @media (max-width:420px){
-    .badge-wrap{ width:220px; margin-bottom:-36px; }
+    body{ padding:20px 12px; }
+    .badge-wrap{ width:210px; margin-bottom:-34px; }
     .badge-text{ font-size:20px; }
-    .card{ padding-top:64px; }
+    .card{ padding:62px 20px 28px; border-radius:24px; }
+    .sub{ margin-bottom:28px; }
+    .field{ margin-bottom:22px; }
+    .game-section{ margin-top:22px; }
   }
 </style>
 </head>
@@ -287,24 +327,28 @@
     <h1>AI Treasure<br>Hunt</h1>
     <p class="sub">Decode the clue below to unlock the next coordinate.</p>
 
-    <div class="field" id="teamField">
-      <label for="teamNumber">Team Number</label>
-      <input type="text" id="teamNumber" placeholder="e.g. 07" onkeydown="if(event.key==='Enter') startTeam()">
-      <div class="team-error">Enter team number</div>
+    <div id="teamSetup">
+      <div class="field" id="teamField">
+        <label for="teamNumber">Team Number</label>
+        <input type="text" id="teamNumber" placeholder="e.g. 2" autocomplete="off" onkeydown="if(event.key==='Enter') startTeam()">
+        <div class="team-error">Enter team number</div>
+      </div>
+
+      <button id="teamButton" onclick="startTeam()">Start Hunt</button>
     </div>
 
-    <button id="teamButton" onclick="startTeam()">Start / Continue</button>
+    <div id="teamStatus" class="team-status"></div>
 
-    <div id="questionSection" class="field hidden">
+    <div id="questionSection" class="game-section hidden">
       <div class="question-box">
         <span class="q-label" id="clueLabel">Clue</span>
         <span class="q-text" id="questionText"></span>
       </div>
     </div>
 
-    <div id="answerSection" class="field hidden">
+    <div id="answerSection" class="field game-section hidden">
       <label for="answer">Your Answer</label>
-      <input type="text" id="answer" placeholder="Type your answer here" onkeydown="if(event.key==='Enter') submitAnswer()">
+      <input type="text" id="answer" placeholder="Type your answer here" autocomplete="off" onkeydown="if(event.key==='Enter') submitAnswer()">
     </div>
 
     <button id="answerButton" class="hidden" onclick="submitAnswer()">Submit Answer</button>
@@ -330,25 +374,50 @@
   let activeClueId = null;
 
 
+  function getQrToken(){
+    return new URLSearchParams(window.location.search).get("qr");
+  }
+
+
   function showResult(message, type){
-    const resultBox = document.getElementById("result");
-    resultBox.className = type;
-    resultBox.textContent = message;
+    const box = document.getElementById("result");
+    box.className = type;
+    box.textContent = message;
   }
 
 
   function clearResult(){
-    const resultBox = document.getElementById("result");
-    resultBox.className = "";
-    resultBox.textContent = "";
+    const box = document.getElementById("result");
+    box.className = "";
+    box.textContent = "";
+  }
+
+
+  function setBusy(buttonId, busy, busyText, normalText){
+    const button = document.getElementById(buttonId);
+    button.disabled = busy;
+    button.textContent = busy ? busyText : normalText;
+  }
+
+
+  function lockTeamUi(teamId){
+    activeTeamId = String(teamId);
+    localStorage.setItem(TEAM_STORAGE_KEY, activeTeamId);
+
+    document.getElementById("teamSetup").classList.add("hidden");
+
+    const status = document.getElementById("teamStatus");
+    status.textContent = "Team " + activeTeamId;
+    status.classList.add("show");
   }
 
 
   function showHint(text, label){
-    const nextClue = document.getElementById("nextClue");
-    document.getElementById("hintLabel").textContent = label || "Next Location";
+    const box = document.getElementById("nextClue");
+    document.getElementById("hintLabel").textContent =
+      label || "Next Location";
     document.getElementById("hintText").textContent = text || "";
-    nextClue.classList.toggle("show", Boolean(text));
+    box.classList.toggle("show", Boolean(text));
   }
 
 
@@ -375,6 +444,7 @@
     document.getElementById("answerButton").classList.remove("hidden");
 
     showHint("", "Next Location");
+    clearResult();
     document.getElementById("answer").focus();
   }
 
@@ -425,37 +495,6 @@
   }
 
 
-  function applyTeamState(data){
-    const team = data.team;
-    const input = document.getElementById("teamNumber");
-    const teamButton = document.getElementById("teamButton");
-
-    activeTeamId = String(team.teamId);
-    input.value = activeTeamId;
-
-    localStorage.setItem(TEAM_STORAGE_KEY, activeTeamId);
-
-    if(Number(team.currentStep) > 1){
-      input.disabled = true;
-      teamButton.disabled = true;
-      teamButton.textContent = "Team Locked";
-    } else {
-      input.disabled = false;
-      teamButton.disabled = false;
-      teamButton.textContent = "Change Team";
-    }
-
-    if(team.finishedAt){
-      hideQuestion();
-      showHint("", "Next Location");
-      showResult("Treasure hunt completed!", "correct");
-      return;
-    }
-
-    showHint(data.currentHint || "", "Current Location Hint");
-  }
-
-
   async function startTeam(){
     const input = document.getElementById("teamNumber");
     const teamField = document.getElementById("teamField");
@@ -468,14 +507,13 @@
     }
 
     teamField.classList.remove("has-error");
-    clearResult();
+    showResult("Starting your hunt...", "warning");
+    setBusy("teamButton", true, "Starting...", "Start Hunt");
 
     try {
       const data = await getTeam(teamId);
 
       if(!data.success){
-        localStorage.removeItem(TEAM_STORAGE_KEY);
-        activeTeamId = null;
         showResult(
           data.error?.message || "Team not found.",
           "wrong"
@@ -483,29 +521,44 @@
         return;
       }
 
-      applyTeamState(data);
+      lockTeamUi(data.team.teamId);
 
-      const qrToken =
-        new URLSearchParams(window.location.search).get("qr");
+      if(data.team.finishedAt){
+        hideQuestion();
+        showHint("", "Next Location");
+        showResult("Treasure hunt completed!", "correct");
+        return;
+      }
+
+      const qrToken = getQrToken();
 
       if(qrToken){
         await processQr(qrToken);
+      } else {
+        clearResult();
+        showHint(data.currentHint || "", "Current Location Hint");
       }
 
     } catch(error){
       showResult("Could not connect to the game server.", "wrong");
+    } finally {
+      setBusy("teamButton", false, "Starting...", "Start Hunt");
     }
   }
 
 
   async function processQr(qrToken){
     if(!activeTeamId){
-      showResult("Enter your team number first.", "warning");
+      showResult(
+        "Start the hunt first on this device before scanning location QR codes.",
+        "warning"
+      );
       return;
     }
 
-    clearResult();
     hideQuestion();
+    showHint("", "Next Location");
+    showResult("Checking location...", "warning");
 
     try {
       const data = await validateQr(activeTeamId, qrToken);
@@ -530,7 +583,7 @@
     const answer = document.getElementById("answer").value.trim();
 
     if(!activeTeamId){
-      showResult("Enter your team number first.", "warning");
+      showResult("Start the hunt first.", "warning");
       return;
     }
 
@@ -544,7 +597,8 @@
       return;
     }
 
-    clearResult();
+    setBusy("answerButton", true, "Checking...", "Submit Answer");
+    showResult("Checking answer...", "warning");
 
     try {
       const data = await sendAnswer(
@@ -568,37 +622,26 @@
 
       hideQuestion();
 
+      const cleanUrl =
+        window.location.origin + window.location.pathname;
+
+      window.history.replaceState({}, "", cleanUrl);
+
       if(data.finished){
         showHint("", "Next Location");
-        showResult("Congrats! You finished the treasure hunt!", "correct");
+        showResult(
+          "Congrats! You finished the treasure hunt!",
+          "correct"
+        );
       } else {
         showResult("Congrats, correct!", "correct");
         showHint(data.nextHint || "", "Next Location");
-
-        // The old location QR should no longer remain in the address bar
-        // after the team advances to the next step.
-        const cleanUrl =
-          window.location.origin + window.location.pathname;
-
-        window.history.replaceState({}, "", cleanUrl);
-      }
-
-      // Refresh team state from the backend so step/lock status stays correct.
-      const teamData = await getTeam(activeTeamId);
-
-      if(teamData.success){
-        const input = document.getElementById("teamNumber");
-        const teamButton = document.getElementById("teamButton");
-
-        if(Number(teamData.team.currentStep) > 1){
-          input.disabled = true;
-          teamButton.disabled = true;
-          teamButton.textContent = "Team Locked";
-        }
       }
 
     } catch(error){
       showResult("Could not submit your answer.", "wrong");
+    } finally {
+      setBusy("answerButton", false, "Checking...", "Submit Answer");
     }
   }
 
@@ -607,34 +650,48 @@
     const storedTeamId =
       localStorage.getItem(TEAM_STORAGE_KEY);
 
-    const qrToken =
-      new URLSearchParams(window.location.search).get("qr");
+    const qrToken = getQrToken();
 
     if(!storedTeamId){
       if(qrToken){
         showResult(
-          "Enter your team number to continue.",
+          "Start the hunt first on this device, then scan this QR again.",
           "warning"
         );
       }
       return;
     }
 
-    document.getElementById("teamNumber").value = storedTeamId;
+    lockTeamUi(storedTeamId);
+
+    // On QR links, validate immediately. This avoids an unnecessary
+    // GET /team request and makes location QR pages load faster.
+    if(qrToken){
+      await processQr(qrToken);
+      return;
+    }
+
+    // On the normal page, load the team's current hint.
+    showResult("Loading your hunt...", "warning");
 
     try {
       const data = await getTeam(storedTeamId);
 
       if(!data.success){
         localStorage.removeItem(TEAM_STORAGE_KEY);
+        location.reload();
         return;
       }
 
-      applyTeamState(data);
-
-      if(qrToken && !data.team.finishedAt){
-        await processQr(qrToken);
+      if(data.team.finishedAt){
+        hideQuestion();
+        showHint("", "Next Location");
+        showResult("Treasure hunt completed!", "correct");
+        return;
       }
+
+      clearResult();
+      showHint(data.currentHint || "", "Current Location Hint");
 
     } catch(error){
       showResult("Could not connect to the game server.", "wrong");
