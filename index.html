@@ -42,14 +42,19 @@
     max-width:560px;
   }
 
-  /* ---------- starburst badge ---------- */
   .badge-wrap{
     position:relative;
     width:280px;
     margin:0 auto -46px;
     z-index:3;
   }
-  .badge-wrap svg{ width:100%; display:block; filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
+
+  .badge-wrap svg{
+    width:100%;
+    display:block;
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  }
+
   .badge-text{
     position:absolute;
     inset:0;
@@ -65,7 +70,6 @@
     transform:translateY(2px);
   }
 
-  /* ---------- main card ---------- */
   .card{
     position:relative;
     z-index:1;
@@ -83,17 +87,9 @@
     z-index:2;
     opacity:0.9;
   }
+
   .sparkle.tl{ top:70px; left:22px; }
   .sparkle.br{ bottom:120px; right:22px; font-size:26px; }
-
-  .kicker{
-    text-align:center;
-    font-size:14px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    color:var(--text-dim);
-    margin:0 0 6px;
-  }
 
   h1{
     font-family:Georgia,'Times New Roman',serif;
@@ -142,11 +138,15 @@
     box-shadow:3px 3px 0 var(--cream-soft);
     transition:transform .12s ease, box-shadow .12s ease;
   }
+
   input[type="text"]:focus{
     transform:translate(-1px,-1px);
     box-shadow:4px 4px 0 var(--rust);
   }
-  input[type="text"]::placeholder{ color:#8a7a63; }
+
+  input[type="text"]::placeholder{
+    color:#8a7a63;
+  }
 
   .question-box{
     background:var(--cream);
@@ -157,6 +157,7 @@
     color:var(--black);
     box-shadow:3px 3px 0 var(--cream-soft);
   }
+
   .question-box .q-label{
     display:block;
     font-family:'Arial Black','Arial Narrow',system-ui,sans-serif;
@@ -166,6 +167,7 @@
     margin-bottom:8px;
     text-transform:uppercase;
   }
+
   .question-box .q-text{
     font-size:14.5px;
     line-height:1.55;
@@ -186,17 +188,25 @@
     box-shadow:4px 4px 0 var(--cream-soft);
     transition:transform .12s ease, box-shadow .12s ease;
   }
+
   button:hover{
     transform:translate(-2px,-2px);
     box-shadow:6px 6px 0 var(--cream-soft);
   }
+
   button:active{
     transform:translate(0,0);
     box-shadow:2px 2px 0 var(--cream-soft);
   }
 
+  button:disabled{
+    opacity:.65;
+    cursor:wait;
+    transform:none;
+  }
+
   #result{
-    margin-top:20px;
+    margin-top:26px;
     padding:14px 16px;
     border-radius:10px;
     font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -207,16 +217,19 @@
     display:none;
     border:2px solid var(--black);
   }
+
   #result.correct{
     display:block;
     background:#c9e2b3;
     color:var(--black);
   }
+
   #result.wrong{
     display:block;
     background:#e8b3a9;
     color:var(--black);
   }
+
   #result.warning{
     display:block;
     background:var(--cream);
@@ -230,10 +243,14 @@
     font-weight:600;
     color:#f0b95a;
   }
+
   .field.has-error input[type="text"]{
     box-shadow:4px 4px 0 #f0b95a;
   }
-  .field.has-error .team-error{ display:block; }
+
+  .field.has-error .team-error{
+    display:block;
+  }
 
   .clue-reveal{
     display:none;
@@ -242,11 +259,24 @@
     border-color:var(--rust);
     animation:reveal .3s ease;
   }
-  .clue-reveal .q-label{ color:var(--rust); }
-  .clue-reveal.show{ display:block; }
+
+  .clue-reveal .q-label{
+    color:var(--rust);
+  }
+
+  .clue-reveal.show{
+    display:block;
+  }
+
   @keyframes reveal{
-    from{ opacity:0; transform:translateY(-6px); }
-    to{ opacity:1; transform:translateY(0); }
+    from{
+      opacity:0;
+      transform:translateY(-6px);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
   }
 
   .footnote{
@@ -276,21 +306,13 @@
     text-transform:uppercase;
   }
 
-  .team-status.show{ display:block; }
+  .team-status.show{
+    display:block;
+  }
 
   #teamButton,
   #answerButton{
     margin-top:4px;
-  }
-
-  button:disabled{
-    opacity:.65;
-    cursor:wait;
-    transform:none;
-  }
-
-  #result{
-    margin-top:26px;
   }
 
   #nextClue{
@@ -308,422 +330,925 @@
   }
 </style>
 </head>
+
 <body>
 
 <div class="stage">
 
   <div class="badge-wrap">
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="100,2 112,28 138,14 138,42 166,34 158,62 186,62 170,86 196,96 170,106 186,130 158,130 166,158 138,150 138,178 112,164 100,190 88,164 62,178 62,150 34,158 42,130 14,130 30,106 4,96 30,86 14,62 42,62 34,34 62,42 62,14 88,28"
-        fill="#f2e3d3" stroke="#7a3a2a" stroke-width="4" stroke-linejoin="round"/>
+      <polygon
+        points="100,2 112,28 138,14 138,42 166,34 158,62 186,62 170,86 196,96 170,106 186,130 158,130 166,158 138,150 138,178 112,164 100,190 88,164 62,178 62,150 34,158 42,130 14,130 30,106 4,96 30,86 14,62 42,62 34,34 62,42 62,14 88,28"
+        fill="#f2e3d3"
+        stroke="#7a3a2a"
+        stroke-width="4"
+        stroke-linejoin="round"
+      />
     </svg>
-    <div class="badge-text">AURA<br>PRESENTS</div>
+
+    <div class="badge-text">
+      AURA<br>PRESENTS
+    </div>
   </div>
 
   <div class="card">
+
     <span class="sparkle tl">✦</span>
     <span class="sparkle br">✦</span>
 
-    <h1>AI Treasure<br>Hunt</h1>
-    <p class="sub">Decode the clue below to unlock the next coordinate.</p>
+    <h1>
+      AI Treasure<br>Hunt
+    </h1>
+
+    <p class="sub">
+      Decode the clue below to unlock the next coordinate.
+    </p>
 
     <div id="teamSetup">
+
       <div class="field" id="teamField">
-        <label for="teamNumber">Team Number</label>
-        <input type="text" id="teamNumber" placeholder="e.g. 2" autocomplete="off" onkeydown="if(event.key==='Enter') startTeam()">
-        <div class="team-error">Enter team number</div>
+
+        <label for="teamNumber">
+          Team Number
+        </label>
+
+        <input
+          type="text"
+          id="teamNumber"
+          placeholder="e.g. 2"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') startTeam()"
+        >
+
+        <div class="team-error">
+          Enter team number
+        </div>
+
       </div>
 
-      <button id="teamButton" onclick="startTeam()">Start Hunt</button>
+      <button
+        id="teamButton"
+        onclick="startTeam()"
+      >
+        Start Hunt
+      </button>
+
     </div>
 
-    <div id="teamStatus" class="team-status"></div>
+    <div
+      id="teamStatus"
+      class="team-status"
+    ></div>
 
-    <div id="questionSection" class="game-section hidden">
+    <div
+      id="questionSection"
+      class="game-section hidden"
+    >
+
       <div class="question-box">
-        <span class="q-label" id="clueLabel">Clue</span>
-        <span class="q-text" id="questionText"></span>
+
+        <span
+          class="q-label"
+          id="clueLabel"
+        >
+          Clue
+        </span>
+
+        <span
+          class="q-text"
+          id="questionText"
+        ></span>
+
       </div>
+
     </div>
 
-    <div id="answerSection" class="field game-section hidden">
-      <label for="answer">Your Answer</label>
-      <input type="text" id="answer" placeholder="Type your answer here" autocomplete="off" onkeydown="if(event.key==='Enter') submitAnswer()">
+    <div
+      id="answerSection"
+      class="field game-section hidden"
+    >
+
+      <label for="answer">
+        Your Answer
+      </label>
+
+      <input
+        type="text"
+        id="answer"
+        placeholder="Type your answer here"
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter') submitAnswer()"
+      >
+
     </div>
 
-    <button id="answerButton" class="hidden" onclick="submitAnswer()">Submit Answer</button>
+    <button
+      id="answerButton"
+      class="hidden"
+      onclick="submitAnswer()"
+    >
+      Submit Answer
+    </button>
 
     <div id="result"></div>
 
-    <div id="nextClue" class="question-box clue-reveal">
-      <span class="q-label" id="hintLabel">Next Location</span>
-      <span class="q-text" id="hintText"></span>
+    <div
+      id="nextClue"
+      class="question-box clue-reveal"
+    >
+
+      <span
+        class="q-label"
+        id="hintLabel"
+      >
+        Next Location
+      </span>
+
+      <span
+        class="q-text"
+        id="hintText"
+      ></span>
+
     </div>
 
-    <p class="footnote">Powered by AURA</p>
+    <p class="footnote">
+      Powered by AURA
+    </p>
+
   </div>
+
 </div>
 
 <script>
+
   const API_URL =
     "https://script.google.com/macros/s/AKfycbwCAKGUM0hv7dlG0NHAnbG4ROLuIlmRpfHPp1n6Xw2Jzidudd6UfzgL1Gx2fuMS-id-/exec";
 
-  const TEAM_STORAGE_KEY = "auraTreasureHuntTeamId";
+  const TEAM_STORAGE_KEY =
+    "auraTreasureHuntTeamId";
+
+  const LAST_STEP = 7;
 
   let activeTeamId = null;
   let activeClueId = null;
 
 
   function getQrToken(){
-    return new URLSearchParams(window.location.search).get("qr");
+
+    return new URLSearchParams(
+      window.location.search
+    ).get("qr");
+
   }
 
 
   function showResult(message, type){
-    const box = document.getElementById("result");
+
+    const box =
+      document.getElementById("result");
+
     box.className = type;
     box.textContent = message;
+
   }
 
 
   function clearResult(){
-    const box = document.getElementById("result");
+
+    const box =
+      document.getElementById("result");
+
     box.className = "";
     box.textContent = "";
+
   }
 
 
-  function setBusy(buttonId, busy, busyText, normalText){
-    const button = document.getElementById(buttonId);
+  function setBusy(
+    buttonId,
+    busy,
+    busyText,
+    normalText
+  ){
+
+    const button =
+      document.getElementById(buttonId);
+
     button.disabled = busy;
-    button.textContent = busy ? busyText : normalText;
+
+    button.textContent =
+      busy
+        ? busyText
+        : normalText;
+
   }
 
 
   function lockTeamUi(teamId){
-    activeTeamId = String(teamId);
-    localStorage.setItem(TEAM_STORAGE_KEY, activeTeamId);
 
-    document.getElementById("teamSetup").classList.add("hidden");
+    activeTeamId =
+      String(teamId);
 
-    const status = document.getElementById("teamStatus");
-    status.textContent = "Team " + activeTeamId;
+    localStorage.setItem(
+      TEAM_STORAGE_KEY,
+      activeTeamId
+    );
+
+    document
+      .getElementById("teamSetup")
+      .classList
+      .add("hidden");
+
+    const status =
+      document.getElementById("teamStatus");
+
+    status.textContent =
+      "Team " + activeTeamId;
+
     status.classList.add("show");
+
   }
 
 
   function showHint(text, label){
-    const box = document.getElementById("nextClue");
-    document.getElementById("hintLabel").textContent =
-      label || "Next Location";
-    document.getElementById("hintText").textContent = text || "";
-    box.classList.toggle("show", Boolean(text));
+
+    const box =
+      document.getElementById("nextClue");
+
+    document
+      .getElementById("hintLabel")
+      .textContent =
+        label || "Next Location";
+
+    document
+      .getElementById("hintText")
+      .textContent =
+        text || "";
+
+    box.classList.toggle(
+      "show",
+      Boolean(text)
+    );
+
   }
 
 
   function hideQuestion(){
+
     activeClueId = null;
-    document.getElementById("questionSection").classList.add("hidden");
-    document.getElementById("answerSection").classList.add("hidden");
-    document.getElementById("answerButton").classList.add("hidden");
-    document.getElementById("answer").value = "";
+
+    document
+      .getElementById("questionSection")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("answerSection")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("answerButton")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("answer")
+      .value = "";
+
   }
 
 
-  function showQuestion(clue, currentStep){
-    activeClueId = String(clue.clueId);
+  function showQuestion(
+    clue,
+    currentStep
+  ){
 
-    document.getElementById("clueLabel").textContent =
-      "Question #" + currentStep;
+    activeClueId =
+      String(clue.clueId);
 
-    document.getElementById("questionText").textContent =
-      clue.question || "";
+    document
+      .getElementById("clueLabel")
+      .textContent =
+        "Question #" + currentStep;
 
-    document.getElementById("questionSection").classList.remove("hidden");
-    document.getElementById("answerSection").classList.remove("hidden");
-    document.getElementById("answerButton").classList.remove("hidden");
+    document
+      .getElementById("questionText")
+      .textContent =
+        clue.question || "";
 
-    showHint("", "Next Location");
+    document
+      .getElementById("questionSection")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("answerSection")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("answerButton")
+      .classList
+      .remove("hidden");
+
+    showHint(
+      "",
+      "Next Location"
+    );
+
     clearResult();
-    document.getElementById("answer").focus();
+
+    document
+      .getElementById("answer")
+      .focus();
+
   }
 
 
   function showFinished(){
+
     hideQuestion();
-    showHint("", "Next Location");
+
+    showHint(
+      "",
+      "Next Location"
+    );
+
     showResult(
       "Congrats! You finished the treasure hunt!",
       "correct"
     );
+
   }
 
 
   function renderTeamState(data){
+
     if(
       data.finished ||
       data.phase === "FINISHED" ||
       data.team?.finishedAt
     ){
+
       showFinished();
       return;
+
     }
+
 
     if(data.phase === "QR"){
+
       hideQuestion();
+
       clearResult();
+
       showHint(
         data.currentHint || "",
-        "Next Location"
+        data.team.currentStep === LAST_STEP
+          ? "Final Location"
+          : "Next Location"
       );
+
       return;
+
     }
 
+
     if(data.clue){
-      showQuestion(data.clue,data.team.currentStep);
+
+      showQuestion(
+        data.clue,
+        data.team.currentStep
+      );
+
       return;
+
     }
+
 
     showResult(
       "Could not load the current game step.",
       "wrong"
     );
+
   }
 
 
   async function getTeam(teamId){
-    const response = await fetch(
-      API_URL +
-      "?route=team&teamId=" +
-      encodeURIComponent(teamId)
-    );
+
+    const response =
+      await fetch(
+        API_URL +
+        "?route=team&teamId=" +
+        encodeURIComponent(teamId)
+      );
 
     return await response.json();
+
   }
 
 
-  async function validateQr(teamId, qrToken){
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        route: "qr/validate",
-        teamId: teamId,
-        qrToken: qrToken
-      })
-    });
+  async function validateQr(
+    teamId,
+    qrToken
+  ){
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify({
+
+            route:"qr/validate",
+
+            teamId:teamId,
+
+            qrToken:qrToken
+
+          })
+
+        }
+      );
 
     return await response.json();
+
   }
 
 
-  async function sendAnswer(teamId, clueId, submittedAnswer){
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        route: "answer",
-        teamId: teamId,
-        clueId: clueId,
-        submittedAnswer: submittedAnswer
-      })
-    });
+  async function sendAnswer(
+    teamId,
+    clueId,
+    submittedAnswer
+  ){
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify({
+
+            route:"answer",
+
+            teamId:teamId,
+
+            clueId:clueId,
+
+            submittedAnswer:
+              submittedAnswer
+
+          })
+
+        }
+      );
 
     return await response.json();
+
   }
 
 
   async function startTeam(){
-    const input = document.getElementById("teamNumber");
-    const teamField = document.getElementById("teamField");
-    const teamId = input.value.trim();
+
+    const input =
+      document.getElementById(
+        "teamNumber"
+      );
+
+    const teamField =
+      document.getElementById(
+        "teamField"
+      );
+
+    const teamId =
+      input.value.trim();
+
 
     if(!teamId){
-      teamField.classList.add("has-error");
-      showResult("Enter team number", "warning");
+
+      teamField
+        .classList
+        .add("has-error");
+
+      showResult(
+        "Enter team number",
+        "warning"
+      );
+
       return;
+
     }
 
-    teamField.classList.remove("has-error");
-    showResult("Starting your hunt...", "warning");
-    setBusy("teamButton", true, "Starting...", "Start Hunt");
 
-    try {
-      const data = await getTeam(teamId);
+    teamField
+      .classList
+      .remove("has-error");
+
+
+    showResult(
+      "Starting your hunt...",
+      "warning"
+    );
+
+
+    setBusy(
+      "teamButton",
+      true,
+      "Starting...",
+      "Start Hunt"
+    );
+
+
+    try{
+
+      const data =
+        await getTeam(teamId);
+
 
       if(!data.success){
+
         showResult(
-          data.error?.message || "Team not found.",
+          data.error?.message ||
+          "Team not found.",
           "wrong"
         );
+
         return;
+
       }
 
-      lockTeamUi(data.team.teamId);
 
-      const qrToken = getQrToken();
+      lockTeamUi(
+        data.team.teamId
+      );
+
+
+      const qrToken =
+        getQrToken();
+
 
       if(qrToken){
-        await processQr(qrToken);
-      } else {
-        renderTeamState(data);
+
+        await processQr(
+          qrToken
+        );
+
+      }else{
+
+        renderTeamState(
+          data
+        );
+
       }
 
-    } catch(error){
-      showResult("Could not connect to the game server.", "wrong");
-    } finally {
-      setBusy("teamButton", false, "Starting...", "Start Hunt");
+
+    }catch(error){
+
+      showResult(
+        "Could not connect to the game server.",
+        "wrong"
+      );
+
+    }finally{
+
+      setBusy(
+        "teamButton",
+        false,
+        "Starting...",
+        "Start Hunt"
+      );
+
     }
+
   }
 
 
-  async function processQr(qrToken){
+  async function processQr(
+    qrToken
+  ){
+
     if(!activeTeamId){
+
       showResult(
         "Start the hunt first on this device before scanning location QR codes.",
         "warning"
       );
+
       return;
+
     }
+
 
     hideQuestion();
-    showHint("", "Next Location");
-    showResult("Checking location...", "warning");
 
-    try {
-      const data = await validateQr(activeTeamId, qrToken);
+    showHint(
+      "",
+      "Next Location"
+    );
+
+    showResult(
+      "Checking location...",
+      "warning"
+    );
+
+
+    try{
+
+      const data =
+        await validateQr(
+          activeTeamId,
+          qrToken
+        );
+
 
       if(!data.success){
+
         showResult(
-          data.error?.message || "This QR code is not valid.",
+          data.error?.message ||
+          "This QR code is not valid.",
           "wrong"
         );
+
         return;
+
       }
+
 
       const cleanUrl =
-        window.location.origin + window.location.pathname;
+        window.location.origin +
+        window.location.pathname;
 
-      window.history.replaceState({}, "", cleanUrl);
+
+      window.history.replaceState(
+        {},
+        "",
+        cleanUrl
+      );
+
 
       if(data.finished){
+
         showFinished();
         return;
+
       }
 
-      showQuestion(data.clue, data.currentStep);
 
-    } catch(error){
-      showResult("Could not validate this QR code.", "wrong");
+      showQuestion(
+        data.clue,
+        data.currentStep
+      );
+
+
+    }catch(error){
+
+      showResult(
+        "Could not validate this QR code.",
+        "wrong"
+      );
+
     }
+
   }
 
 
   async function submitAnswer(){
-    const answer = document.getElementById("answer").value.trim();
+
+    const answer =
+      document
+        .getElementById("answer")
+        .value
+        .trim();
+
 
     if(!activeTeamId){
-      showResult("Start the hunt first.", "warning");
-      return;
-    }
 
-    if(!activeClueId){
-      showResult("There is no question to answer.", "warning");
-      return;
-    }
-
-    if(!answer){
-      showResult("Enter an answer before submitting.", "wrong");
-      return;
-    }
-
-    setBusy("answerButton", true, "Checking...", "Submit Answer");
-    showResult("Checking answer...", "warning");
-
-    try {
-      const data = await sendAnswer(
-        activeTeamId,
-        activeClueId,
-        answer
+      showResult(
+        "Start the hunt first.",
+        "warning"
       );
 
+      return;
+
+    }
+
+
+    if(!activeClueId){
+
+      showResult(
+        "There is no question to answer.",
+        "warning"
+      );
+
+      return;
+
+    }
+
+
+    if(!answer){
+
+      showResult(
+        "Enter an answer before submitting.",
+        "wrong"
+      );
+
+      return;
+
+    }
+
+
+    setBusy(
+      "answerButton",
+      true,
+      "Checking...",
+      "Submit Answer"
+    );
+
+
+    showResult(
+      "Checking answer...",
+      "warning"
+    );
+
+
+    try{
+
+      const data =
+        await sendAnswer(
+          activeTeamId,
+          activeClueId,
+          answer
+        );
+
+
       if(!data.success){
+
         showResult(
-          data.error?.message || "Could not submit answer.",
+          data.error?.message ||
+          "Could not submit answer.",
           "wrong"
         );
+
         return;
+
       }
 
+
       if(!data.correct){
-        showResult("Oops, wrong! Try again.", "wrong");
+
+        showResult(
+          "Oops, wrong! Try again.",
+          "wrong"
+        );
+
         return;
+
       }
+
 
       hideQuestion();
 
-      showResult("Congrats, correct!", "correct");
+
+      showResult(
+        "Congrats, correct!",
+        "correct"
+      );
+
 
       showHint(
         data.nextHint || "",
-        "Next Location"
+        data.currentStep === LAST_STEP
+          ? "Final Location"
+          : "Next Location"
       );
 
-    } catch(error){
-      showResult("Could not submit your answer.", "wrong");
-    } finally {
-      setBusy("answerButton", false, "Checking...", "Submit Answer");
+
+    }catch(error){
+
+      showResult(
+        "Could not submit your answer.",
+        "wrong"
+      );
+
+    }finally{
+
+      setBusy(
+        "answerButton",
+        false,
+        "Checking...",
+        "Submit Answer"
+      );
+
     }
+
   }
 
 
   async function initialise(){
-    const storedTeamId =
-      localStorage.getItem(TEAM_STORAGE_KEY);
 
-    const qrToken = getQrToken();
+    const storedTeamId =
+      localStorage.getItem(
+        TEAM_STORAGE_KEY
+      );
+
+
+    const qrToken =
+      getQrToken();
+
 
     if(!storedTeamId){
+
       if(qrToken){
+
         showResult(
           "Start the hunt first on this device, then scan this QR again.",
           "warning"
         );
+
       }
+
       return;
+
     }
 
-    lockTeamUi(storedTeamId);
+
+    lockTeamUi(
+      storedTeamId
+    );
+
 
     if(qrToken){
-      await processQr(qrToken);
+
+      await processQr(
+        qrToken
+      );
+
       return;
+
     }
 
-    showResult("Loading your hunt...", "warning");
 
-    try {
-      const data = await getTeam(storedTeamId);
+    showResult(
+      "Loading your hunt...",
+      "warning"
+    );
+
+
+    try{
+
+      const data =
+        await getTeam(
+          storedTeamId
+        );
+
 
       if(!data.success){
-        localStorage.removeItem(TEAM_STORAGE_KEY);
+
+        localStorage.removeItem(
+          TEAM_STORAGE_KEY
+        );
+
         location.reload();
+
         return;
+
       }
 
-      renderTeamState(data);
 
-    } catch(error){
-      showResult("Could not connect to the game server.", "wrong");
+      renderTeamState(
+        data
+      );
+
+
+    }catch(error){
+
+      showResult(
+        "Could not connect to the game server.",
+        "wrong"
+      );
+
     }
+
   }
 
 
   initialise();
+
 </script>
 
 </body>
