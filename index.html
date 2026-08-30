@@ -95,14 +95,6 @@
     margin:0 0 6px;
   }
 
-  .brand-logo{
-    display:block;
-    width:118px;
-    height:auto;
-    margin:0 auto 18px;
-    border-radius:12px;
-  }
-
   h1{
     font-family:Georgia,'Times New Roman',serif;
     font-weight:900;
@@ -306,7 +298,6 @@
   }
 
   @media (max-width:420px){
-    .brand-logo{ width:96px; margin-bottom:16px; }
     body{ padding:20px 12px; }
     .badge-wrap{ width:210px; margin-bottom:-34px; }
     .badge-text{ font-size:20px; }
@@ -332,8 +323,6 @@
   <div class="card">
     <span class="sparkle tl">✦</span>
     <span class="sparkle br">✦</span>
-
-    <img class="brand-logo" src="AURA Logo White.png" alt="AURA — Adapting to the Future" width="118" height="118">
 
     <h1>AI Treasure<br>Hunt</h1>
     <p class="sub">Decode the clue below to unlock the next coordinate.</p>
@@ -445,7 +434,7 @@
     activeClueId = String(clue.clueId);
 
     document.getElementById("clueLabel").textContent =
-      "Clue #" + activeClueId;
+      "Question #" + activeClueId;
 
     document.getElementById("questionText").textContent =
       clue.question || "";
@@ -457,6 +446,48 @@
     showHint("", "Next Location");
     clearResult();
     document.getElementById("answer").focus();
+  }
+
+
+  function showFinished(){
+    hideQuestion();
+    showHint("", "Next Location");
+    showResult(
+      "Congrats! You finished the treasure hunt!",
+      "correct"
+    );
+  }
+
+
+  function renderTeamState(data){
+    if(
+      data.finished ||
+      data.phase === "FINISHED" ||
+      data.team?.finishedAt
+    ){
+      showFinished();
+      return;
+    }
+
+    if(data.phase === "QR"){
+      hideQuestion();
+      clearResult();
+      showHint(
+        data.currentHint || "",
+        "Next Location"
+      );
+      return;
+    }
+
+    if(data.clue){
+      showQuestion(data.clue);
+      return;
+    }
+
+    showResult(
+      "Could not load the current game step.",
+      "wrong"
+    );
   }
 
 
@@ -534,20 +565,12 @@
 
       lockTeamUi(data.team.teamId);
 
-      if(data.team.finishedAt){
-        hideQuestion();
-        showHint("", "Next Location");
-        showResult("Treasure hunt completed!", "correct");
-        return;
-      }
-
       const qrToken = getQrToken();
 
       if(qrToken){
         await processQr(qrToken);
       } else {
-        clearResult();
-        showHint(data.currentHint || "", "Current Location Hint");
+        renderTeamState(data);
       }
 
     } catch(error){
@@ -582,6 +605,16 @@
         return;
       }
 
+      const cleanUrl =
+        window.location.origin + window.location.pathname;
+
+      window.history.replaceState({}, "", cleanUrl);
+
+      if(data.finished){
+        showFinished();
+        return;
+      }
+
       showQuestion(data.clue);
 
     } catch(error){
@@ -599,7 +632,7 @@
     }
 
     if(!activeClueId){
-      showResult("Scan the correct location QR first.", "warning");
+      showResult("There is no question to answer.", "warning");
       return;
     }
 
@@ -633,21 +666,12 @@
 
       hideQuestion();
 
-      const cleanUrl =
-        window.location.origin + window.location.pathname;
+      showResult("Congrats, correct!", "correct");
 
-      window.history.replaceState({}, "", cleanUrl);
-
-      if(data.finished){
-        showHint("", "Next Location");
-        showResult(
-          "Congrats! You finished the treasure hunt!",
-          "correct"
-        );
-      } else {
-        showResult("Congrats, correct!", "correct");
-        showHint(data.nextHint || "", "Next Location");
-      }
+      showHint(
+        data.nextHint || "",
+        "Next Location"
+      );
 
     } catch(error){
       showResult("Could not submit your answer.", "wrong");
@@ -675,14 +699,11 @@
 
     lockTeamUi(storedTeamId);
 
-    // On QR links, validate immediately. This avoids an unnecessary
-    // GET /team request and makes location QR pages load faster.
     if(qrToken){
       await processQr(qrToken);
       return;
     }
 
-    // On the normal page, load the team's current hint.
     showResult("Loading your hunt...", "warning");
 
     try {
@@ -694,15 +715,7 @@
         return;
       }
 
-      if(data.team.finishedAt){
-        hideQuestion();
-        showHint("", "Next Location");
-        showResult("Treasure hunt completed!", "correct");
-        return;
-      }
-
-      clearResult();
-      showHint(data.currentHint || "", "Current Location Hint");
+      renderTeamState(data);
 
     } catch(error){
       showResult("Could not connect to the game server.", "wrong");
