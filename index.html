@@ -142,10 +142,12 @@
     box-shadow:3px 3px 0 var(--cream-soft);
     transition:transform .12s ease, box-shadow .12s ease;
   }
+
   input[type="text"]:focus{
     transform:translate(-1px,-1px);
     box-shadow:4px 4px 0 var(--rust);
   }
+
   input[type="text"]::placeholder{ color:#8a7a63; }
 
   .question-box{
@@ -157,6 +159,7 @@
     color:var(--black);
     box-shadow:3px 3px 0 var(--cream-soft);
   }
+
   .question-box .q-label{
     display:block;
     font-family:'Arial Black','Arial Narrow',system-ui,sans-serif;
@@ -166,6 +169,7 @@
     margin-bottom:8px;
     text-transform:uppercase;
   }
+
   .question-box .q-text{
     font-size:14.5px;
     line-height:1.55;
@@ -186,10 +190,12 @@
     box-shadow:4px 4px 0 var(--cream-soft);
     transition:transform .12s ease, box-shadow .12s ease;
   }
+
   button:hover{
     transform:translate(-2px,-2px);
     box-shadow:6px 6px 0 var(--cream-soft);
   }
+
   button:active{
     transform:translate(0,0);
     box-shadow:2px 2px 0 var(--cream-soft);
@@ -207,16 +213,19 @@
     display:none;
     border:2px solid var(--black);
   }
+
   #result.correct{
     display:block;
     background:#c9e2b3;
     color:var(--black);
   }
+
   #result.wrong{
     display:block;
     background:#e8b3a9;
     color:var(--black);
   }
+
   #result.warning{
     display:block;
     background:var(--cream);
@@ -230,9 +239,11 @@
     font-weight:600;
     color:#f0b95a;
   }
+
   .field.has-error input[type="text"]{
     box-shadow:4px 4px 0 #f0b95a;
   }
+
   .field.has-error .team-error{ display:block; }
 
   .clue-reveal{
@@ -242,8 +253,10 @@
     border-color:var(--rust);
     animation:reveal .3s ease;
   }
+
   .clue-reveal .q-label{ color:var(--rust); }
   .clue-reveal.show{ display:block; }
+
   @keyframes reveal{
     from{ opacity:0; transform:translateY(-6px); }
     to{ opacity:1; transform:translateY(0); }
@@ -369,6 +382,7 @@
     "https://script.google.com/macros/s/AKfycbwCAKGUM0hv7dlG0NHAnbG4ROLuIlmRpfHPp1n6Xw2Jzidudd6UfzgL1Gx2fuMS-id-/exec";
 
   const TEAM_STORAGE_KEY = "auraTreasureHuntTeamId";
+  const LAST_STEP = 7;
 
   let activeTeamId = null;
   let activeClueId = null;
@@ -474,13 +488,15 @@
       clearResult();
       showHint(
         data.currentHint || "",
-        "Next Location"
+        data.team.currentStep === LAST_STEP
+          ? "Final Location"
+          : "Next Location"
       );
       return;
     }
 
     if(data.clue){
-      showQuestion(data.clue,data.team.currentStep);
+      showQuestion(data.clue, data.team.currentStep);
       return;
     }
 
@@ -670,7 +686,9 @@
 
       showHint(
         data.nextHint || "",
-        "Next Location"
+        data.currentStep === LAST_STEP
+          ? "Final Location"
+          : "Next Location"
       );
 
     } catch(error){
