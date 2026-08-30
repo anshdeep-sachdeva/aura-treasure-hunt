@@ -393,6 +393,11 @@
   }
 
 
+  function getErrorTag(){
+    return new URLSearchParams(window.location.search).get("error");
+  }
+
+
   function showResult(message, type){
     const box = document.getElementById("result");
     box.className = type;
@@ -614,10 +619,12 @@
       const data = await validateQr(activeTeamId, qrToken);
 
       if(!data.success){
-        showResult(
-          data.error?.message || "This QR code is not valid.",
-          "wrong"
-        );
+        const mainUrl =
+          window.location.origin +
+          window.location.pathname +
+          "?error=invalid-qr";
+
+        window.location.replace(mainUrl);
         return;
       }
 
@@ -704,6 +711,7 @@
       localStorage.getItem(TEAM_STORAGE_KEY);
 
     const qrToken = getQrToken();
+    const errorTag = getErrorTag();
 
     if(!storedTeamId){
       if(qrToken){
@@ -734,6 +742,18 @@
       }
 
       renderTeamState(data);
+
+      if(errorTag === "invalid-qr"){
+        showResult(
+          "This QR isn't valid right now. Continue from your current step below.",
+          "wrong"
+        );
+
+        const cleanUrl =
+          window.location.origin + window.location.pathname;
+
+        window.history.replaceState({}, "", cleanUrl);
+      }
 
     } catch(error){
       showResult("Could not connect to the game server.", "wrong");
